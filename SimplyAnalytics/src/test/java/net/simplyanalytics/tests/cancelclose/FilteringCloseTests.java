@@ -1,0 +1,71 @@
+package net.simplyanalytics.tests.cancelclose;
+
+import java.util.ArrayList;
+import java.util.List;
+
+import net.simplyanalytics.core.TestBase;
+import net.simplyanalytics.core.parallel.ConcurrentParameterizedTestRunner;
+import net.simplyanalytics.enums.ViewType;
+import net.simplyanalytics.pageobjects.pages.main.NewViewPage;
+import net.simplyanalytics.pageobjects.pages.main.views.BaseViewPage;
+import net.simplyanalytics.pageobjects.sections.toolbar.Filtering;
+
+import org.junit.Assert;
+import org.junit.Before;
+import org.junit.Test;
+import org.junit.runner.RunWith;
+import org.junit.runners.Parameterized.Parameters;
+
+@RunWith(ConcurrentParameterizedTestRunner.class)
+public class FilteringCloseTests extends TestBase {
+  
+  private NewViewPage newViewPage;
+  private ViewType view;
+  
+  /**
+   * .
+   * @return
+   */
+  @Parameters(name = "{index}: view {0}")
+  public static List<ViewType[]> data() {
+    List<ViewType[]> list = new ArrayList<>();
+    for (ViewType viewType : ViewType.values()) {
+      if (viewType.equals(ViewType.COMPARISON_REPORT) || viewType.equals(ViewType.MAP)
+          || viewType.equals(ViewType.RANKING) || viewType.equals(ViewType.TIME_SERIES) || viewType.equals(ViewType.SCATTER_PLOT)) {
+        list.add(new ViewType[] { viewType });
+      }
+    }
+    return list;
+  }
+  
+  public FilteringCloseTests(ViewType view) {
+    this.view = view;
+  }
+  
+  @Before
+  public void before() {
+    driver.manage().window().maximize();
+    newViewPage = createOneViewFromEachTypeFix();
+  }
+  
+  @Test
+  public void filteringClose() {
+    BaseViewPage viewPage = newViewPage.getViewChooserSection().clickView(view.getDefaultName());
+    Filtering filtering = viewPage.getToolbar().clickFiltering();
+    filtering.clickCloseFiltering();
+    
+    verificationStep("Verify that the Filtering dialog is disappeared");
+    Assert.assertFalse("The Filtering dialog should be disappeared", filtering.isDisplayed());
+  }
+  
+  @Test
+  public void filteringCloseButton() {
+    BaseViewPage viewPage = newViewPage.getViewChooserSection().clickView(view.getDefaultName());
+    Filtering filtering = viewPage.getToolbar().clickFiltering();
+    filtering.clickClose();
+    
+    verificationStep("Verify that the Filtering dialog is disappeared");
+    Assert.assertFalse("The Filtering dialog should be disappeared", filtering.isDisplayed());
+  }
+
+}

@@ -1,0 +1,20 @@
+syntax: regexp
+^SimplyAnalytics/target$
+^SimplyAnalytics/screenshots$
+^SimplyAnalytics/logs$
+^SimplyAnalytics/bin$
+^SimplyAnalytics/\.settings$
+^SimplyAnalytics/\.classpath
+^SimplyAnalytics/\.project
+^SimplyAnalytics/nb-configuration\.xml
+\.orig$
+\.orig\.\.*$
+\.chg\.\.*$
+\.rej$
+\.conflict\~$
+\.log$
+^SimplyAnalytics/documentation$
+\.metadata/
+\.recommenders/
+\.idea/
+\.project
