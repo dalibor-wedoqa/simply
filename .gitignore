@@ -1,0 +1,11 @@
+/SimplyAnalytics/target
+/SimplyAnalytics/logs
+/SimplyAnalytics/documentation
+/SimplyAnalytics/src/test/resources/drivers
+/SimplyAnalytics/.idea
+/SimplyAnalytics/.allure
+/.idea
+SimplyAnalytics/src/test/resources/drivers/windows/chromedriver.exe
+SimplyAnalytics/src/test/resources/drivers/windows/chromedriver.exe
+SimplyAnalytics/src/test/resources/drivers/windows/geckodriver.exe
+/SimplyAnalytics/screenshots
