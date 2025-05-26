@@ -20,7 +20,7 @@ import io.qameta.allure.Step;
 public class LocationsTab extends BaseLocationsTab
     implements TabWithRecentMenuInterface, TabWithFavoritesMenuInterface {
 
-  @FindBy(xpath = "(//button[@title='Recent Locations'])[1]")
+  @FindBy(xpath = "(//button[@title='Recent Locations'])[0]")
   private WebElement recentLocations;
 
   @FindBy(xpath = "(//button[@title='Favorite Locations'])[1]")
