@@ -80,7 +80,7 @@ public class AliasLocationWindow extends BasePage {
   public void clickClose() {
     logger.debug("Click on the close button (X)");
     closeIcon.click();
-    waitForElementToDisappear(root);
+//    waitForElementToDisappear(root);
   }
   
   public boolean isDisplayed() {

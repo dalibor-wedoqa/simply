@@ -34,7 +34,7 @@ public class ExportWindow extends MainExport {
   @FindBy(css = ".x-form-field.x-form-textarea")
   private WebElement messageTextBox;
   
-  @FindBy(css = ".sa-simple-container[class*='export-widget-footer'] a")
+  @FindBy(css = ".sa-simple-container[class*='export-widget-footer'] button")
   private List<WebElement> exportCancelButtons;
   
   @FindBy(css = ".x-component[class*='sa-beyond-limit-businesses-message']")
@@ -58,6 +58,7 @@ public class ExportWindow extends MainExport {
     logger.debug("Click on the Export button");
 
     if (isExportButtonClickable()) {
+      System.out.println("DEBBUG:" + exportCancelButtons);
       waitForAllElementsToAppear(exportCancelButtons, "Export and Cancel buttons are not loaded").get(0).click();
     }
   }
@@ -165,22 +166,37 @@ public class ExportWindow extends MainExport {
    * email export location is selected) // and export the data. @return String
    * with which we could populate document // name...
    **/
-  
+
   @Step("Export {0} to {1} ")
   public void export(ViewType viewType, FileFormat fileFormat, String gmailUser, String message,
-      ExportLocation exportLocation) {
-    
+                     ExportLocation exportLocation) {
+
+    System.out.println("Starting export process");
+    System.out.println("Selected viewType: " + viewType);
+    System.out.println("Selected fileFormat: " + fileFormat);
+    System.out.println("Selected exportLocation: " + exportLocation);
+
+    System.out.println("Choosing file format: " + fileFormat);
     chooseFileFormat(fileFormat);
-    
+
     if (exportLocation.equals(ExportLocation.EMAIL)) {
+      System.out.println("Export location is EMAIL. Entering email details.");
+      System.out.println("Gmail user: " + gmailUser);
+      System.out.println("Email message: " + message);
       enterEmailExportDetails(gmailUser, message);
     }
+
+    System.out.println("Clicking the export button");
     clickExport();
-    
+
     if (viewType.equals(ViewType.MAP)) {
+      System.out.println("Export from MAP view is not supported. Throwing AssertionError.");
       throw new AssertionError("Not supported view");
     }
+
+    System.out.println("Export process completed for viewType: " + viewType + ", format: " + fileFormat + ", location: " + exportLocation);
   }
+
   
   public boolean isExportButtonClickable() {
     return exportCancelButtons.get(0).isEnabled();

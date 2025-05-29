@@ -64,18 +64,37 @@ public class RecentFavoriteMenu extends BasePage {
    * @return recent favorite menu item list
    */
   public List<RecentFavoriteMenuItem> getMenuItems() {
+    System.out.println("Method getMenuItems() called");
+
+    System.out.println("Finding elements with XPath 'ul/li' under root element");
     List<WebElement> items = root.findElements(By.xpath("ul/li"));
+    System.out.println("Number of elements found: " + items.size());
+
+    System.out.println("Initializing list for RecentFavoriteMenuItem objects");
     List<RecentFavoriteMenuItem> recentFavoriteMenuItems = new ArrayList<RecentFavoriteMenuItem>();
-    
-    for (WebElement item : items) {
+
+    for (int i = 0; i < items.size(); i++) {
+      WebElement item = items.get(i);
+      System.out.println("Processing item " + i + ": " + item.toString());
+
       if (searchSubMenuType.getDataType().equals(Ldb.BUSINESS)) {
-        recentFavoriteMenuItems.add(new RecentFavoriteMenuItem(driver, item));
+        System.out.println("Data type is BUSINESS, creating RecentFavoriteMenuItem");
+        RecentFavoriteMenuItem menuItem = new RecentFavoriteMenuItem(driver, item);
+        recentFavoriteMenuItems.add(menuItem);
+        System.out.println("Added RecentFavoriteMenuItem to the list");
       } else {
-        recentFavoriteMenuItems.add(new RecentFavoriteMenuItemWithSubMenu(driver, item));
+        System.out.println("Data type is not BUSINESS, creating RecentFavoriteMenuItemWithSubMenu"+searchSubMenuType.getDataType() );
+        RecentFavoriteMenuItemWithSubMenu menuItemWithSub = new RecentFavoriteMenuItemWithSubMenu(driver, item);
+        System.out.println("The Burger Menu Button:");
+        recentFavoriteMenuItems.add(menuItemWithSub);
+        System.out.println("Added RecentFavoriteMenuItemWithSubMenu to the list");
       }
     }
+
+    System.out.println("Returning list of menu items. Total items: " + recentFavoriteMenuItems.size());
     return recentFavoriteMenuItems;
   }
+
 
   public List<RecentFavoriteMenuItem> getMenuItemsFromRecent() {
     List<WebElement> items = driver.findElements(By.cssSelector("ul>li>a>span[class=\"sa-recent-list-item-name\"]"));

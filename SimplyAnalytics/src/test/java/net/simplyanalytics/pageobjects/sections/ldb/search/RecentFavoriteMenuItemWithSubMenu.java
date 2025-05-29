@@ -6,7 +6,7 @@ import org.openqa.selenium.support.FindBy;
 
 public class RecentFavoriteMenuItemWithSubMenu extends RecentFavoriteMenuItem {
   
-  @FindBy(xpath = ".//a[contains(@class,'sa-recent-list-item-button')]")
+  @FindBy(css = ".sa-recent-list-item-button")
   private WebElement moreOptionsLDB;
   
   public RecentFavoriteMenuItemWithSubMenu(WebDriver driver, WebElement root) {

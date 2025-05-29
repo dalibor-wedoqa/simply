@@ -20,10 +20,10 @@ import io.qameta.allure.Step;
 public class LocationsTab extends BaseLocationsTab
     implements TabWithRecentMenuInterface, TabWithFavoritesMenuInterface {
 
-  @FindBy(xpath = "(//button[@title='Recent Locations'])[0]")
+  @FindBy(css = "#location-search-field-1024 > button.sa-text-field-button.sa-search-field-recent")
   private WebElement recentLocations;
 
-  @FindBy(xpath = "(//button[@title='Favorite Locations'])[1]")
+  @FindBy(xpath = "(//button[@title='Favorite Locations'])[0]")
   private WebElement favoriteLocations;
 
   @FindBy(css = ".sa-sidebar-section-header-expandable span")
@@ -116,7 +116,10 @@ public class LocationsTab extends BaseLocationsTab
   public RecentFavoriteMenu clickRecent() {
     logger.debug("Click on the Recent Locations button");
     waitForElementToBeClickable(recentLocations, "Recent Locations button is not loaded").click();
-    return new RecentFavoriteMenu(driver);
+    System.out.println("recentLocations loaded:" + recentLocations);
+    RecentFavoriteMenu recentFavorites = new RecentFavoriteMenu(driver);
+    System.out.println("recentFavorites loaded:" + recentFavorites);
+    return recentFavorites;
   }
 
   @Override

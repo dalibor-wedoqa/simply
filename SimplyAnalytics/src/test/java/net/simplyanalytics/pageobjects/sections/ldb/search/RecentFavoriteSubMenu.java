@@ -106,7 +106,10 @@ public class RecentFavoriteSubMenu extends BasePage {
     public AliasLocationWindow clickAddAliasLocation() {
       logger.debug("Click on the Add Alias Location Name button");
       addAliasLocationName.click();
-      return new AliasLocationWindow(driver);
+      logger.debug("Click done.");
+      AliasLocationWindow aliasLocationWindow = new AliasLocationWindow(driver);
+      System.out.println("Alias Location Window to be returned");
+      return aliasLocationWindow;
     }
     
     /**

@@ -277,37 +277,56 @@ public class BusinessesExportTests extends TestBase {
   @Test
   public void testCsvDownloadExport() throws Exception {
 
+    System.out.println("Creating a new project with location: WASHINGTON_DC_CITY");
     mapPage = createNewProjectWindow
-        .createNewProjectWithLocationAndDefaultVariables(Location.WASHINGTON_DC_CITY);
-    mapPage.addRandomBusiness();
-    mapPage.addRandomBusiness();
-    mapPage.addRandomBusiness();
+            .createNewProjectWithLocationAndDefaultVariables(Location.WASHINGTON_DC_CITY);
+
+    System.out.println("Adding first random business to the map page");
     mapPage.addRandomBusiness();
 
+    System.out.println("Adding second random business to the map page");
+    mapPage.addRandomBusiness();
+
+    System.out.println("Adding third random business to the map page");
+    mapPage.addRandomBusiness();
+
+    System.out.println("Adding fourth random business to the map page");
+    mapPage.addRandomBusiness();
+
+    System.out.println("Switching to Businesses view using default view name: " + viewType.getDefaultName());
     businessesPage = (BusinessesPage) mapPage.getViewChooserSection()
-        .clickView(viewType.getDefaultName());
+            .clickView(viewType.getDefaultName());
 
+    System.out.println("Clicking the Export button on the toolbar");
     exportWindow = businessesPage.getToolbar().clickExport();
 
-    exportWindow.export(viewType, FileFormat.CSV, GMailUser.EMAIL, "Email message",
-        ExportLocation.COMPUTER);
+    System.out.println("Exporting the view as CSV to computer and emailing to: " + GMailUser.EMAIL);
+    exportWindow.export(viewType, FileFormat.CSV, GMailUser.EMAIL, "Email message", ExportLocation.COMPUTER);
 
-    logger.info("Get downloaded file");
-    File file = DownloadUtil
-          .getDownloadedFile(viewType, FileFormat.CSV.getExtension(), getDownloadFilePath());
-    
+    System.out.println("Getting downloaded file from download path: " + getDownloadFilePath());
+    File file = DownloadUtil.getDownloadedFile(viewType, FileFormat.CSV.getExtension(), getDownloadFilePath());
+
+    System.out.println("Verifying that the CSV Business report was successfully downloaded");
     verificationStep("Verify that the CSV Business report was successfully downloaded");
     Assert.assertNotEquals("The selected Business report was not exported", file, null);
-    
+
+    System.out.println("Reading content of downloaded CSV file");
     List<String[]> fileContent = new CsvUtils().getCsvContent(file);
+
+    System.out.println("Fetching table content from the active view on the Businesses page");
     List<List<String>> tableContent = businessesPage.getActiveView().getTableContents();
-    
+
+    System.out.println("Removing CSV header row");
     fileContent.remove(0);  //header
-    
+
+    System.out.println("Comparing CSV file content with table content");
     verificationStep("Verify that file content is same as table content");
-    Assert.assertTrue
-      ("File content is different than table content:\n", CompareUtils.compareAttachment(tableContent, fileContent));
-    
+    Assert.assertTrue(
+            "File content is different than table content:\n",
+            CompareUtils.compareAttachment(tableContent, fileContent)
+    );
+
+    System.out.println("Deleting the downloaded CSV file");
     DownloadUtil.deleteDownloadedFile(file);
   }
 

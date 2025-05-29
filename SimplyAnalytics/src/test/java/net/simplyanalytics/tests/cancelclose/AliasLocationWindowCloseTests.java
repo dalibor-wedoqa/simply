@@ -31,31 +31,51 @@ public class AliasLocationWindowCloseTests extends TestBase {
    */
   @Before
   public void before() {
+    System.out.println("Method before() called");
+
+    System.out.println("Instantiating AuthenticateInstitutionPage");
     AuthenticateInstitutionPage institutionPage = new AuthenticateInstitutionPage(driver);
-    SignInPage signInPage = institutionPage.institutionLogin(InstitutionUser.INSTITUTION,
-        InstitutionUser.PASSWORD);
+
+    System.out.println("Logging in with institution credentials");
+    SignInPage signInPage = institutionPage.institutionLogin(InstitutionUser.INSTITUTION, InstitutionUser.PASSWORD);
+
+    System.out.println("Clicking 'Sign in as Guest'");
     WelcomeScreenTutorialWindow welcomeScreenTutorialWindow = signInPage.clickSignInAsGuest();
+
+    System.out.println("Closing welcome screen tutorial window");
     createNewProjectWindow = welcomeScreenTutorialWindow.clickClose();
-    
+
     Location searchFor = Location.LOS_ANGELES_CA_CITY;
+    System.out.println("Creating new project with location: " + searchFor);
     mapPage = createNewProjectWindow.createNewProjectWithLocationAndDefaultVariables(searchFor);
 
+    System.out.println("Waiting for map page active view to fully load");
     mapPage.getActiveView().waitForFullLoad();
-    mapPage.getLdbSection().clickLocations();
-    LocationsTab locationTab = mapPage.getLdbSection().clickLocations();
-   
-    RecentFavoriteMenu recentFavoriteMenu = locationTab.clickRecent();
-    List<RecentFavoriteMenuItem> locationList = recentFavoriteMenu.getMenuItems();
 
-    aliasLocationWindow = ((RecentFavoriteMenuItemWithSubMenu) locationList
-        .get(0)).clickOnMoreOptions().clickAddAliasLocation();
+    System.out.println("Clicking 'Locations' in LDB section");
+    mapPage.getLdbSection().clickLocations();
+
+    System.out.println("Clicking 'Locations' again to get LocationsTab");
+    LocationsTab locationTab = mapPage.getLdbSection().clickLocations();
+
+    System.out.println("Clicking 'Recent' in LocationsTab to get RecentFavoriteMenu");
+    RecentFavoriteMenu recentFavoriteMenu = locationTab.clickRecent();
+
+    System.out.println("Getting recent favorite menu items");
+    List<RecentFavoriteMenuItem> locationList = recentFavoriteMenu.getMenuItems();
+    System.out.println("Number of recent favorite menu items found: " + locationList.size());
+
+    System.out.println("Clicking on more options of first RecentFavoriteMenuItemWithSubMenu to add alias location");
+    aliasLocationWindow = ((RecentFavoriteMenuItemWithSubMenu) locationList.get(0))
+            .clickOnMoreOptions().clickAddAliasLocation();
   }
+
 
   @Test
   public void closeAliasLocationWindow() {
     
     aliasLocationWindow.clickClose();
-    
+    //
     verificationStep("Verify that the Alias Location Window is disappeared");
     Assert.assertFalse("The Alias Location Window should be disappeared",
         aliasLocationWindow.isDisplayed());
